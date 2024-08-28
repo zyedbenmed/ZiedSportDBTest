@@ -102,6 +102,7 @@ class MainViewModel @Inject constructor(
                     }
                     is FDJResult.Failure -> TeamsUiState.Error
                 }
+                searchQuery = ""
             }
         }
     }

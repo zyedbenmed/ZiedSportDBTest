@@ -7,7 +7,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -138,6 +137,7 @@ class MainViewModelTest {
             TeamsUiState.Ready(teamsDisplayModel = teamDisplayModel),
             mainViewModel.teamsUiState.value,
         )
+        Assert.assertEquals("", mainViewModel.searchQuery)
     }
 
     @Test
