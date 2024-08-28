@@ -1,19 +1,25 @@
 [versions]
-agp = "8.5.0"
+agp = "8.5.2"
 kotlin = "1.9.0"
-hilt = "2.48"
-coreKtx = "1.10.1"
+hilt = "2.52"
+coreKtx = "1.13.1"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.6.1"
-activityCompose = "1.8.0"
-composeBom = "2024.04.01"
-retrofitVersion = "2.9.0"
-okhttpVersion = "4.7.2"
-roomVersion = "2.5.1"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.4"
+activityCompose = "1.9.1"
+composeBom = "2024.08.00"
+retrofitVersion = "2.11.0"
+okhttpVersion = "4.12.0"
+roomVersion = "2.6.1"
 ktlintVersion = "0.48.2"
 timberVersion = "5.0.1"
+coilVersion = "2.7.0"
+hiltComposeVersion = "1.2.0"
+lifecycleComposeVersion = "2.8.4"
+mockkVersion = "1.13.4"
+couroutinesTestVersion = "1.8.1"
+archTestVersion = "2.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -25,6 +31,8 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-hilt-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltComposeVersion" }
+androidx-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleComposeVersion" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
@@ -40,7 +48,10 @@ room = { group = "androidx.room", name = "room-runtime", version.ref = "roomVers
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
 ktlint = { group = "com.pinterest", name = "ktlint", version.ref = "ktlintVersion" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timberVersion" }
-
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilVersion" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockkVersion" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "couroutinesTestVersion" }
+androidx-arch-test = { group = "androidx.arch.core", name = "core-testing", version.ref = "archTestVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

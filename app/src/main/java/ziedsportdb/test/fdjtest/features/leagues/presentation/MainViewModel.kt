@@ -13,30 +13,35 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ziedsportdb.test.fdjtest.core.FDJResult
 import ziedsportdb.test.fdjtest.di.IoDispatcher
 import ziedsportdb.test.fdjtest.features.leagues.domain.usecase.GetLeaguesUseCase
+import ziedsportdb.test.fdjtest.features.leagues.domain.usecase.GetTeamsByLeagueUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getLeaguesUseCase: GetLeaguesUseCase,
+    private val getTeamsByLeagueUseCase: GetTeamsByLeagueUseCase,
     private val leaguesDisplayModelBuilder: LeaguesDisplayModelBuilder,
+    private val teamsDisplayModelBuilder: TeamsDisplayModelBuilder,
     @IoDispatcher private val dispatcherIO: CoroutineDispatcher,
 ) : ViewModel() {
 
-    private val _leagues = MutableStateFlow<LeaguesUiState>(LeaguesUiState.Loading)
-    val leagues = _leagues.asStateFlow()
+    private val _leaguesUiState = MutableStateFlow<LeaguesUiState>(LeaguesUiState.Loading)
+    val leaguesUiState = _leaguesUiState.asStateFlow()
+
+    private val _teamsUiState = MutableStateFlow<TeamsUiState>(TeamsUiState.Idle)
+    val teamsUiState = _teamsUiState.asStateFlow()
 
     var searchQuery by mutableStateOf("")
         private set
 
-    val searchResults: StateFlow<LeaguesUiState> =
+    val searchResultsUiState: StateFlow<LeaguesUiState> =
         snapshotFlow { searchQuery }
-            .combine(leagues) { searchQuery, leagues ->
+            .combine(leaguesUiState) { searchQuery, leagues ->
                 when {
                     (searchQuery.isNotEmpty() && leagues is LeaguesUiState.Ready) -> {
                         LeaguesUiState.Ready(
@@ -51,13 +56,13 @@ class MainViewModel @Inject constructor(
             }.stateIn(
                 scope = viewModelScope,
                 initialValue = LeaguesUiState.Loading,
-                started = SharingStarted.WhileSubscribed(5_000),
+                started = SharingStarted.WhileSubscribed(5000),
             )
 
     fun getAllLeagues() {
         viewModelScope.launch(dispatcherIO) {
             getLeaguesUseCase.invoke().collect { result ->
-                _leagues.value = when (result) {
+                _leaguesUiState.value = when (result) {
                     is FDJResult.Success -> {
                         if (result.data.isEmpty()) {
                             LeaguesUiState.Empty
@@ -78,5 +83,26 @@ class MainViewModel @Inject constructor(
 
     fun onSearchQueryChanged(newQuery: String) {
         searchQuery = newQuery
+    }
+
+    fun onLeagueClicked(leagueName: String) {
+        viewModelScope.launch(dispatcherIO) {
+            getTeamsByLeagueUseCase.invoke(leagueName).collect { result ->
+                _teamsUiState.value = when (result) {
+                    is FDJResult.Success -> {
+                        if (result.data.isEmpty()) {
+                            TeamsUiState.Empty
+                        } else {
+                            TeamsUiState.Ready(
+                                teamsDisplayModel = teamsDisplayModelBuilder.buildTeamsDisplayModel(
+                                    model = result.data,
+                                ),
+                            )
+                        }
+                    }
+                    is FDJResult.Failure -> TeamsUiState.Error
+                }
+            }
+        }
     }
 }
