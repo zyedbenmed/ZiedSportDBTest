@@ -5,13 +5,6 @@ import androidx.room.PrimaryKey
 import ziedsportdb.test.fdjtest.core.DomainModelMapper
 import ziedsportdb.test.fdjtest.features.leagues.domain.model.LeagueModel
 
-/**
- * Entity class representing a league in the local database.
- *
- * @property idLeague The unique identifier of the league.
- * @property leagueName The name of the league.
- * @property sport The sport of the league.
- */
 @Entity(tableName = "league")
 data class LeagueEntity(
     @PrimaryKey val idLeague: String,

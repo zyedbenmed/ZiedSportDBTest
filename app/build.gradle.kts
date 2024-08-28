@@ -7,7 +7,7 @@ plugins {
     kotlin("kapt")
 }
 
-val ktlint by configurations.creating
+val ktlint: Configuration by configurations.creating
 project.tasks.preBuild.dependsOn("ktlintCheck")
 
 android {
@@ -79,31 +79,7 @@ kapt {
     correctErrorTypes = true
 }
 
-val appCompatVersion by extra("1.7.0")
-val coreKtxVersion by extra("1.13.1")
-val lifeCycleAndLiveDataCompilerAndViewModelKTXVersion by extra("2.8.4")
-val swipeRefreshLayoutVersion by extra("1.1.0")
-val activityVersion by extra("1.9.1")
-val fragmentVersion by extra("1.8.2")
-val retrofitVersion by extra("2.11.0")
-val okHttpVersion by extra("4.12.0")
-val roomVersion by extra("2.6.1")
-val daggerVersion by extra("2.15")
-val coroutineVersion by extra("1.8.1")
-val multidexVersion by extra("2.0.1")
-val materialDesignVersion by extra("1.12.0")
-val coilVersion by extra("2.7.0")
-val hiltVersion by extra("2.52")
-val hiltCompilerVersion by extra("1.2.0")
-val composeVersion by extra("1.6.8")
-val composeFoundationVersion by extra("1.6.8")
-val composeMaterialVersion by extra("1.6.8")
-val composeMaterial3Version by extra("1.2.1")
-val composeNavigationVersion by extra("2.7.7")
-val composeHiltNavigationVersion by extra("1.2.0")
-
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -112,6 +88,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.hilt.compose)
+    implementation(libs.androidx.lifecycle.compose)
+    implementation(libs.coil)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -119,13 +98,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifeCycleAndLiveDataCompilerAndViewModelKTXVersion")
-    implementation("androidx.activity:activity-compose:$activityVersion")
-    implementation("androidx.navigation:navigation-compose:$composeNavigationVersion")
-    implementation("androidx.hilt:hilt-navigation-compose:$composeHiltNavigationVersion")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifeCycleAndLiveDataCompilerAndViewModelKTXVersion")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
 
     // Ktlint
     ktlint(libs.ktlint) {
@@ -145,9 +117,6 @@ dependencies {
     // OkHttp
     implementation(libs.okhttp)
     implementation(libs.okhttp.interceptor)
-
-    // security
-    // implementation("androidx.security:security-crypto:1.1.0-alpha05")
 
     // room
     implementation(libs.room)

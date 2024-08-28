@@ -11,13 +11,6 @@ import ziedsportdb.test.fdjtest.features.leagues.domain.model.LeagueModel
 import ziedsportdb.test.fdjtest.features.leagues.domain.repository.LeagueRepository
 import javax.inject.Inject
 
-/**
- * Implementation of [LeagueRepository] which handles fetching league data from local and remote data sources.
- *
- * @property leagueRemoteDataSource the remote data source to fetch data from
- * @property leagueLocalDataSource the local data source to fetch data from
- * @property dataSourceDecisionMaker the decision maker which decides whether to fetch from remote or local data source
- */
 class LeagueRepositoryImpl @Inject constructor(
     private val leagueRemoteDataSource: LeagueRemoteDataSource,
     private val leagueLocalDataSource: LeagueLocalDataSource,
@@ -40,7 +33,6 @@ class LeagueRepositoryImpl @Inject constructor(
             }
         }
 
-        // return data fetched from local data source
         return flow {
             emit(
                 FDJResult.Success(

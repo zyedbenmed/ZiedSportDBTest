@@ -5,11 +5,6 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * A class that manages the synchronization status for leagues and teams.
- *
- * @property sharedPreferencesAccessor is used to access the shared preferences.
- */
 @Singleton
 class SyncStatusManager @Inject constructor(
     private val sharedPreferencesAccessor: SharedPreferencesAccessor,
@@ -25,13 +20,12 @@ class SyncStatusManager @Inject constructor(
         }
     }
 
-    /**
-     * Returns whether a synchronization is needed based on the last synchronization timestamp and the synchronization interval.
-     *
-     * @param lastSyncTimestamp The last synchronization timestamp.
-     * @param setLastSyncTimestamp A function to set the last synchronization timestamp.
-     * @return `true` if a synchronization is needed, `false` otherwise.
-     */
+    fun shouldSyncTeams(leagueName: String): Boolean {
+        return !isLeagueHasSavedTeams(leagueName) || shouldSync(sharedPreferencesAccessor.teamLastSyncTimestamp) {
+            sharedPreferencesAccessor.teamLastSyncTimestamp = it
+        }
+    }
+
     private fun shouldSync(lastSyncTimestamp: Long, setLastSyncTimestamp: (Long) -> Unit): Boolean {
         return try {
             val currentTimeStamp = System.currentTimeMillis()
@@ -44,5 +38,13 @@ class SyncStatusManager @Inject constructor(
             Timber.e("Couldn't determine if shouldSync. $e")
             false
         }
+    }
+
+    private fun isLeagueHasSavedTeams(leagueName: String): Boolean {
+        if (!sharedPreferencesAccessor.leagueNamesWithSavedTeams.contains(leagueName)) {
+            sharedPreferencesAccessor.leagueNamesWithSavedTeams = listOf(leagueName)
+            return false
+        }
+        return true
     }
 }
