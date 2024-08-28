@@ -17,6 +17,9 @@ timberVersion = "5.0.1"
 coilVersion = "2.7.0"
 hiltComposeVersion = "1.2.0"
 lifecycleComposeVersion = "2.8.4"
+mockkVersion = "1.13.4"
+couroutinesTestVersion = "1.8.1"
+archTestVersion = "2.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,7 +49,9 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 ktlint = { group = "com.pinterest", name = "ktlint", version.ref = "ktlintVersion" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timberVersion" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilVersion" }
-
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockkVersion" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "couroutinesTestVersion" }
+androidx-arch-test = { group = "androidx.arch.core", name = "core-testing", version.ref = "archTestVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

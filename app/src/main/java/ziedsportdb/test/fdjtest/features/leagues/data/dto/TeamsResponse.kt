@@ -10,11 +10,11 @@ data class TeamsResponse(
 
 data class TeamResponse(
     val idTeam: String?,
-    val idSoccerXML: String?,
-    @SerializedName("idAPIfootball")
-    val idApiFootball: String?,
-    val intLoved: String?,
     val strTeam: String?,
+    val idSoccerXML: String? = null,
+    @SerializedName("idAPIfootball")
+    val idApiFootball: String? = null,
+    val intLoved: String? = null,
     val strTeamAlternate: String? = null,
     val strTeamShort: String? = null,
     val intFormedYear: String? = null,
